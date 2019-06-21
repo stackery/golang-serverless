@@ -1,19 +1,20 @@
-service: node10-serverless
+service: golang-serverless
 frameworkVersion: '>=1.2.0 <2.0.0'
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: go1.x
 plugins:
   - serverless-iam-roles-per-function
   - serverless-cf-vars
+  - serverless-iam-roles-per-function
 functions:
   Function:
-    handler: index.handler
+    handler: main.Handler
     description:
       Fn::Sub:
         - 'Stack #{StackTagName} Environment #{EnvironmentTagName} Function #{ResourceName}'
         - ResourceName: Function
-    runtime: nodejs10.x
+    runtime: go1.x
     tracing: Active
     iamRoleStatements:
       - Effect: Allow
@@ -29,7 +30,7 @@ resources:
     StackTagName:
       Type: String
       Description: Stack Name (injected by Stackery at deployment time)
-      Default: node10-serverless
+      Default: golang-serverless
     EnvironmentTagName:
       Type: String
       Description: Environment Name (injected by Stackery at deployment time)
